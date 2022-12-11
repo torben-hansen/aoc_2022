@@ -1,6 +1,6 @@
 
 # Not particularly efficient data structure or data structure methods.
-# For example, only doesn't need to be able to distinguish between node size
+# For example, only really needs to be able to distinguish between node size
 # and subtree size; knowing the total size is sufficient.
 class Node:
   def __init__(self, name, parent_node = None):
