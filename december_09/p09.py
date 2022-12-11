@@ -1,5 +1,33 @@
 import math
 
+'''
+Slightly better solution that I missed!
+
+Replaced
+          if math.sqrt((head[0] - tail[0])**2 + (head[1] - tail[1])**2) == 2:
+            # Not a diagonal move
+            if tail[0] == head[0]:
+              tail = (tail[0], tail[1] + sign(head[1] - tail[1])*1)
+            else:
+              tail = (tail[0] + sign(head[0] - tail[0])*1, tail[1])
+          else:
+            tail = (tail[0] + sign(head[0] - tail[0])*1, tail[1] + sign(head[1] - tail[1])*1)
+with
+        if not is_adjacent(tail, head):
+          tail = (tail[0] + sign(head[0] - tail[0])*1, tail[1] + sign(head[1] - tail[1])*1)
+
+and changed
+
+def sign(n):
+  if n < 0: return -1
+  else: return 1
+with
+def sign(n):
+  if n < 0: return -1
+  elif n > 0: return 1
+  else: return 0
+'''
+
 def is_adjacent(tail, head):
   if math.sqrt((head[0] - tail[0])**2 + (head[1] - tail[1])**2) > 1.5:
     return False
@@ -7,7 +35,8 @@ def is_adjacent(tail, head):
 
 def sign(n):
   if n < 0: return -1
-  else: return 1
+  elif n > 0: return 1
+  else: return 0
 
 def solve_1(fname):
 
@@ -36,31 +65,21 @@ def solve_1(fname):
         else:
           head = (head[0], head[1] - 1)
 
+        print('head: {}'.format(head))
+
         if not is_adjacent(tail, head):
-          if math.sqrt((head[0] - tail[0])**2 + (head[1] - tail[1])**2) == 2:
-            # Not a diagonal move
-            if tail[0] == head[0]:
-              tail = (tail[0], tail[1] + sign(head[1] - tail[1])*1)
-            else:
-              tail = (tail[0] + sign(head[0] - tail[0])*1, tail[1])
-          else:
-            tail = (tail[0] + sign(head[0] - tail[0])*1, tail[1] + sign(head[1] - tail[1])*1)
+          tail = (tail[0] + sign(head[0] - tail[0])*1, tail[1] + sign(head[1] - tail[1])*1)
 
           tail_positions.add(tail)
+
+        print('tail: {}'.format(tail))
 
   print(len(tail_positions))
 
 def maybe_move(tail, head):
   tail_new = tail
   if not is_adjacent(tail, head):
-    if math.sqrt((head[0] - tail[0])**2 + (head[1] - tail[1])**2) == 2:
-      # Not a diagonal move
-      if tail[0] == head[0]:
-        tail_new = (tail[0], tail[1] + sign(head[1] - tail[1])*1)
-      else:
-        tail_new = (tail[0] + sign(head[0] - tail[0])*1, tail[1])
-    else:
-      tail_new = (tail[0] + sign(head[0] - tail[0])*1, tail[1] + sign(head[1] - tail[1])*1)
+    tail_new = (tail[0] + sign(head[0] - tail[0])*1, tail[1] + sign(head[1] - tail[1])*1)
 
   return tail_new
 
